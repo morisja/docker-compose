@@ -1,0 +1,20 @@
+version: "3.3"
+volumes:
+  myapp:
+services:
+  web:
+    build: web
+    volumes:
+      - myapp:/sock
+  redis:
+    image: "redis:alpine"
+  nginx:
+    image: "nginx:latest"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/myproject.conf
+      - myapp:/sock
+    ports:
+      # Uncomment for the default nginx webserver
+      # - "8080:80"
+      # this is the wsgi port
+      - "8081:8001"
